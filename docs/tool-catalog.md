@@ -47,6 +47,8 @@ This table connects model-visible tool names to the plugin package and service s
 | `@deepseek-ai/dsh-tool-todo` | `todo_write` | `ctx.tools`, `owning Agent session` | `tool/call`, `todo/write`, `tool/result` | - | todo_write is session-owned state; UIs render the latest todo/write event as a checklist. `allowParallelInProgress` is required with no default, so the catalog states its choice: `true`, whose description invites several `in_progress` items. A deployment choosing `false` receives the same tool with a description asking for exactly one active task. |
 | `@deepseek-ai/dsh-tool-working-directory` | `working_directory` | `ctx.tools`, `ctx.workingDirectory` | `tool/call`, `working-directory/change`, `user context for directory changes`, `tool/result` | - | Reads or changes the calling Session directory. Existing shells and processes retain their own directories; origin metadata and permission roots stay fixed. |
 | `@deepseek-ai/dsh-experimental-tool-worktree` | `create_worktree` | `ctx.tools`, `ctx.worktrees`, `a calling Agent` | `tool/call`, `Git branch and checkout`, `working-directory/change`, `tool/result` | - | Enabled through the Change requests & worktrees bundle on Web and Desktop; other profiles can select the standalone bundle. Creates a new branch and checkout from a pinned local commit under existing write permissions, then changes the Session directory. Leaving retains the branch and checkout. |
+| `@deepseek-ai/dsh-tool-robot` | `robot_act`, `robot_inspect`, `robot_observe`, `robot_workflow` | `ctx.tools`, `ctx.robot`, `user approval for robot_act by default` | `tool/call`, `tool/result`, `provider-owned physical effects after approval` | - | robot_workflow compares live capabilities with standard embodied workflows without executing operations. robot_inspect discovers current provider capabilities. robot_observe accepts only read-only operations; robot_act accepts only physical actions and asks for approval by default. Robot controllers retain collision, limit, interlock, watchdog and emergency-stop enforcement. |
+| `@deepseek-ai/dsh-tool-embodied-project` | `embodied_project` | `ctx.tools`, `ctx.embodiedProjects` | `tool/call`, `tool/result`, `revisioned project files` | - | Project templates and targets are discovered at runtime. Sample runs record revision-bound evidence and never claim model inference or hardware validation. |
 | `@deepseek-ai/dsh-tool-workflow` | `workflow` | `ctx.tools`, `ctx.workflowEngine`, `ctx.systemPrompt`, `a calling Agent (exec.agent parents the script children)` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-workspace-dependencies` | `load_workspace_dependencies` | `ctx.tools` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-web` | `web_fetch`, `web_search` | `ctx.tools`, `ctx.web`, `ctx.systemPrompt` | `tool/call`, `tool/result` | - | web_search and web_fetch keep provider selection behind ctx.web so model-visible schemas stay stable across backend swaps. |
@@ -2534,6 +2536,144 @@ Create a new Git branch and worktree from a local commit, branch, or tag, then c
 Source: [`packages/experimental/tool-worktree/src/index.ts`](../packages/experimental/tool-worktree/src/index.ts)
 
 Enabled through the Change requests & worktrees bundle on Web and Desktop; other profiles can select the standalone bundle. Creates a new branch and checkout from a pinned local commit under existing write permissions, then changes the Session directory. Leaving retains the branch and checkout.
+
+<a id="deepseek-aidsh-tool-robot"></a>
+
+## `@deepseek-ai/dsh-tool-robot`
+
+### `robot_act`
+
+Run one state-changing robot operation discovered by robot_inspect. The operation may move hardware or change the physical world and normally requires user approval. This tool rejects read-only operations.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Exact provider id returned by robot_inspect."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Exact capability id returned by robot_inspect."
+    },
+    "operation_id": {
+      "type": "string",
+      "description": "Exact operation id returned by robot_inspect."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "Named arguments declared by the selected operation.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "provider_id",
+    "capability_id",
+    "operation_id",
+    "arguments"
+  ]
+}
+```
+
+Source: [`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_inspect`
+
+Discover every currently registered robot, sensor, perception function, actuator, mobility function, its readiness, operations, argument requirements, and whether each operation observes or acts. Call this before robot_observe or robot_act and use only returned ids.
+
+```json
+{
+  "type": "object",
+  "properties": {}
+}
+```
+
+Source: [`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_observe`
+
+Run one read-only robot sensor or perception operation discovered by robot_inspect. This tool rejects operations declared as physical actions.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Exact provider id returned by robot_inspect."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Exact capability id returned by robot_inspect."
+    },
+    "operation_id": {
+      "type": "string",
+      "description": "Exact operation id returned by robot_inspect."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "Named arguments declared by the selected operation.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "provider_id",
+    "capability_id",
+    "operation_id",
+    "arguments"
+  ]
+}
+```
+
+Source: [`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_workflow`
+
+Compare the live robot inventory with standard embodied-development workflows. Omit workflow_id to inspect every workflow, or pass an exact id from a previous result. The result reports ready, degraded, unavailable, and missing operations plus ordered implementation and verification stages. It never executes an operation or proves that a physical task is safe.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Optional exact workflow id, such as spatial-memory, simulation, hand-eye-calibration, or gravity-compensation."
+    }
+  }
+}
+```
+
+Source: [`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+robot_workflow compares live capabilities with standard embodied workflows without executing operations. robot_inspect discovers current provider capabilities. robot_observe accepts only read-only operations; robot_act accepts only physical actions and asks for approval by default. Robot controllers retain collision, limit, interlock, watchdog and emergency-stop enforcement.
+
+<a id="deepseek-aidsh-tool-embodied-project"></a>
+
+## `@deepseek-ai/dsh-tool-embodied-project`
+
+### `embodied_project`
+
+Manage robot development projects. Begin with catalog. create requires title, goal, template and target; read/export require id; revise requires id, expectedRevision, title, goal and target; run requires id, expectedRevision and query. list resumes stored projects. Template providers declare available capabilities. Sample evidence never proves model inference or real-robot behavior. Explain the result and next step in the user language.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "command": {
+      "type": "string",
+      "description": "JSON command whose action is catalog, list, create, read, revise, run or export."
+    }
+  },
+  "required": [
+    "command"
+  ]
+}
+```
+
+Source: [`packages/experimental/tool-embodied-project/src/index.ts`](../packages/experimental/tool-embodied-project/src/index.ts)
+
+Project templates and targets are discovered at runtime. Sample runs record revision-bound evidence and never claim model inference or hardware validation.
 
 <a id="deepseek-aidsh-tool-workflow"></a>
 

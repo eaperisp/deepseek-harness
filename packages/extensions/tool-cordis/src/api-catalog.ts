@@ -1119,6 +1119,31 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
     ],
   },
   {
+    key: 'embodiedProjects',
+    summary: 'Project persistence and template registration without UI or model dependencies.',
+    description: 'Project persistence and template registration without UI or model dependencies.',
+    methods: [
+      {
+        signature: 'registerTemplate(template: ProjectTemplate): () => Promise<void>',
+        description: 'Contribute an application template.',
+        parameters: [{ name: 'template', description: 'template implementation owned by the caller fiber.' }],
+        returns: 'disposer; the contributor must own it through ctx.effect.',
+      },
+      {
+        signature: 'registerTarget(target: ProjectTarget): () => Promise<void>',
+        description: 'Contribute a target configuration.',
+        parameters: [{ name: 'target', description: 'target capabilities and execution mode.' }],
+        returns: 'disposer; the contributor must own it through ctx.effect.',
+      },
+      {
+        signature: 'async execute(command: string, caller: AbortSignal): Promise<string>',
+        description: 'Execute a validated JSON project command and wait for any commit.',
+        parameters: [{ name: 'command', description: 'catalog, list, create, read, revise, run or export JSON.' }, { name: 'caller', description: 'caller cancellation; accepted atomic writes may finish after cancellation.' }],
+        returns: 'JSON snapshot after successful persistence; rejects conflicts and malformed input.',
+      },
+    ],
+  },
+  {
     key: 'fileReferences',
     summary: 'Host capability for cancellable file-reference discovery.',
     description: 'Host capability for cancellable file-reference discovery.',
@@ -2541,6 +2566,74 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
         description: 'Stream the calling Peer\'s access snapshot: one baseline, then `upsert` and `remove` frames after each `invalidate()` and each policy registration or removal that changes a grant. The owner receives only `{ owner: true }`. The generation ends when `signal` aborts or this service unloads, so a reloaded service starts every reader from a fresh baseline.',
         parameters: [{ name: 'signal', description: 'generation cancellation.' }],
         returns: 'the access frames of one generation.',
+      },
+    ],
+  },
+  {
+    key: 'robot',
+    summary: 'Registry shared by robot providers and model-facing consumers in one Host.',
+    description: 'Registry shared by robot providers and model-facing consumers in one Host.',
+    methods: [
+      {
+        signature: 'register(provider: RobotProvider): () => Promise<void>',
+        description: 'Register one robot or gateway; duplicate ids fail without replacing the original. The contributing plugin must own the returned disposer with `ctx.effect()`.',
+        parameters: [{ name: 'provider', description: 'adapter owned by the contributing plugin.' }],
+        returns: 'idempotent disposer which removes admission, cancels, and joins accepted work.',
+      },
+      {
+        signature: 'listProviders(): readonly RobotProviderInfo[]',
+        description: 'Read registered provider facts in registration order without contacting hardware.',
+        parameters: [],
+        returns: 'detached provider facts.',
+      },
+      {
+        signature: 'registerWorkflow(workflow: RobotWorkflowDefinition): () => void',
+        description: 'Register one additional portable workflow; duplicate ids fail without replacement. The contributing plugin must own the returned disposer with `ctx.effect()`.',
+        parameters: [{ name: 'workflow', description: 'complete requirements and ordered verification stages.' }],
+        returns: 'idempotent disposer which removes only this registration.',
+      },
+      {
+        signature: 'listWorkflows(): readonly RobotWorkflowDefinition[]',
+        description: 'List workflow definitions without contacting hardware.',
+        parameters: [],
+        returns: 'definitions in registration order.',
+      },
+      {
+        signature: 'async inspectWorkflows(signal: AbortSignal, workflowId?: RobotWorkflowId): Promise<RobotWorkflowInspection>',
+        description: 'Resolve one or every registered workflow against one shared live robot inspection. This method never executes a robot operation; a `ready` result reports only that the declared operations are discoverable and ready at inspection time.',
+        parameters: [{ name: 'signal', description: 'caller cancellation.' }, { name: 'workflowId', description: 'optional exact workflow id.' }],
+        returns: 'robot evidence and resolved workflow requirements.',
+      },
+      {
+        signature: 'async inspect(signal: AbortSignal): Promise<RobotInspection>',
+        description: 'Discover all registered providers concurrently. One failed provider is reported in place and does not hide working robots or capabilities.',
+        parameters: [{ name: 'signal', description: 'caller cancellation.' }],
+        returns: 'one settled snapshot per provider in registration order.',
+      },
+      {
+        signature: 'async execute(request: RobotExecutionRequest, signal: AbortSignal): Promise<RobotOperationOutcome>',
+        description: 'Re-discover, validate, and execute one exact provider operation. The mode must match the declaration so read-only consumers cannot dispatch physical actions.',
+        parameters: [{ name: 'request', description: 'exact provider, operation, mode, and untrusted model arguments.' }, { name: 'signal', description: 'caller cancellation.' }],
+        returns: 'provider result, including explicit unknown physical outcomes.',
+      },
+    ],
+  },
+  {
+    key: 'robotStudio',
+    summary: 'Workbench API with plugin-scoped cancellation.',
+    description: 'Workbench API with plugin-scoped cancellation.',
+    methods: [
+      {
+        signature: '@Remote async inspect(): Promise<string>',
+        description: 'Discover the currently configured robot and its exact callable operations.',
+        parameters: [],
+        returns: 'A JSON capability inventory; failed providers remain visible.',
+      },
+      {
+        signature: '@Remote async dispatch(command: string): Promise<string>',
+        description: 'Forward a project command without a second data store.',
+        parameters: [{ name: 'command', description: 'validated by the project service.' }],
+        returns: 'committed project result or structured Remote failure.',
       },
     ],
   },
@@ -7744,6 +7837,14 @@ export const TYPE_API: readonly TypeApiEntry[] = [
     declaration: 'export interface ProjectionSnapshot {\n    asOfSeq: SessionSeqCursor;\n    values: Partial<SessionProjectionMap>;\n}',
   },
   {
+    name: 'ProjectTarget',
+    declaration: 'export interface ProjectTarget {\n    readonly id: string;\n    readonly version: string;\n    readonly title: string;\n    readonly mode: \'sample\';\n    readonly capabilities: readonly string[];\n}',
+  },
+  {
+    name: 'ProjectTemplate',
+    declaration: 'export interface ProjectTemplate {\n    readonly id: string;\n    readonly version: string;\n    readonly title: string;\n    readonly description: string;\n    readonly steps: readonly string[];\n    readonly required: readonly string[];\n    readonly optional: readonly string[];\n    readonly limitations: readonly string[];\n    run(this: void, revision: Revision, target: ProjectTarget, query: string, signal: AbortSignal): Promise<Omit<Run, \'id\' | \'revision\' | \'createdAt\' | \'query\'>>;\n}',
+  },
+  {
     name: 'PromptAssembly',
     declaration: 'export interface PromptAssembly extends PromptPresentation {\n    tools: ToolSchema[];\n}',
   },
@@ -8068,12 +8169,144 @@ export const TYPE_API: readonly TypeApiEntry[] = [
     declaration: 'export type ReviewDecision = \'approved\' | \'changes-requested\' | \'review-required\' | \'none\';',
   },
   {
+    name: 'Revision',
+    declaration: 'export type Revision = z.infer<typeof revisionSchema>;',
+  },
+  {
+    name: 'RobotArgumentDefinition',
+    declaration: 'export interface RobotArgumentDefinition {\n    readonly name: string;\n    readonly description: string;\n    readonly type: RobotArgumentType;\n    readonly required?: boolean;\n    readonly enum?: readonly (string | number | boolean)[];\n    readonly minimum?: number;\n    readonly maximum?: number;\n    readonly unit?: string;\n}',
+  },
+  {
+    name: 'RobotArguments',
+    declaration: 'export interface RobotArguments {\n    readonly [key: string]: JsonValue;\n}',
+  },
+  {
+    name: 'RobotArgumentType',
+    declaration: 'export type RobotArgumentType = \'string\' | \'number\' | \'integer\' | \'boolean\' | \'json\';',
+  },
+  {
+    name: 'RobotCapability',
+    declaration: 'export interface RobotCapability {\n    readonly evidence?: JsonValue;\n    readonly id: RobotCapabilityId;\n    readonly name: string;\n    readonly description: string;\n    readonly category: RobotCapabilityCategory;\n    readonly status: RobotCapabilityStatus;\n    readonly operations: readonly RobotOperationDefinition[];\n}',
+  },
+  {
+    name: 'RobotCapabilityCategory',
+    declaration: 'export type RobotCapabilityCategory = \'sensor\' | \'perception\' | \'actuator\' | \'mobility\' | \'system\';',
+  },
+  {
+    name: 'RobotCapabilityId',
+    declaration: 'export type RobotCapabilityId = Branded<\'RobotCapabilityId\'>;',
+  },
+  {
+    name: 'RobotCapabilityStatus',
+    declaration: 'export type RobotCapabilityStatus = {\n    readonly kind: \'ready\';\n} | {\n    readonly kind: \'degraded\';\n    readonly message: string;\n} | {\n    readonly kind: \'unavailable\';\n    readonly message: string;\n};',
+  },
+  {
+    name: 'RobotDiscoveryFailure',
+    declaration: 'export interface RobotDiscoveryFailure {\n    readonly code: string;\n    readonly message: string;\n}',
+  },
+  {
+    name: 'RobotExecutionRequest',
+    declaration: 'export interface RobotExecutionRequest extends RobotProviderExecutionRequest {\n    readonly providerId: RobotProviderId;\n    readonly mode: RobotOperationMode;\n}',
+  },
+  {
+    name: 'RobotInspection',
+    declaration: 'export interface RobotInspection {\n    readonly providers: readonly RobotProviderSnapshot[];\n}',
+  },
+  {
+    name: 'RobotOperationDefinition',
+    declaration: 'export interface RobotOperationDefinition {\n    readonly id: RobotOperationId;\n    readonly name: string;\n    readonly description: string;\n    readonly mode: RobotOperationMode;\n    readonly arguments: readonly RobotArgumentDefinition[];\n}',
+  },
+  {
+    name: 'RobotOperationId',
+    declaration: 'export type RobotOperationId = Branded<\'RobotOperationId\'>;',
+  },
+  {
+    name: 'RobotOperationMode',
+    declaration: 'export type RobotOperationMode = \'observe\' | \'act\';',
+  },
+  {
+    name: 'RobotOperationOutcome',
+    declaration: 'export type RobotOperationOutcome = {\n    readonly kind: \'completed\';\n    readonly output: JsonValue;\n    readonly summary?: string;\n} | {\n    readonly kind: \'unknown\';\n    readonly message: string;\n    readonly output?: JsonValue;\n};',
+  },
+  {
+    name: 'RobotProvider',
+    declaration: 'export interface RobotProvider {\n    readonly info: RobotProviderInfo;\n    discover(signal: AbortSignal): Promise<readonly RobotCapability[]>;\n    execute(request: RobotProviderExecutionRequest, signal: AbortSignal): Promise<RobotOperationOutcome>;\n}',
+  },
+  {
+    name: 'RobotProviderExecutionRequest',
+    declaration: 'export interface RobotProviderExecutionRequest {\n    readonly capabilityId: RobotCapabilityId;\n    readonly operationId: RobotOperationId;\n    readonly arguments: RobotArguments;\n}',
+  },
+  {
+    name: 'RobotProviderId',
+    declaration: 'export type RobotProviderId = Branded<\'RobotProviderId\'>;',
+  },
+  {
+    name: 'RobotProviderInfo',
+    declaration: 'export interface RobotProviderInfo {\n    readonly id: RobotProviderId;\n    readonly name: string;\n    readonly description?: string;\n}',
+  },
+  {
+    name: 'RobotProviderSnapshot',
+    declaration: 'export type RobotProviderSnapshot = {\n    readonly kind: \'available\';\n    readonly provider: RobotProviderInfo;\n    readonly capabilities: readonly RobotCapability[];\n} | {\n    readonly kind: \'failed\';\n    readonly provider: RobotProviderInfo;\n    readonly error: RobotDiscoveryFailure;\n};',
+  },
+  {
+    name: 'RobotWorkflowAlternative',
+    declaration: 'export interface RobotWorkflowAlternative {\n    readonly capabilityId: RobotCapabilityId;\n    readonly operationId: RobotOperationId;\n    readonly mode: RobotOperationMode;\n}',
+  },
+  {
+    name: 'RobotWorkflowCategory',
+    declaration: 'export type RobotWorkflowCategory = \'spatial-memory\' | \'simulation\' | \'calibration\' | \'dynamics\';',
+  },
+  {
+    name: 'RobotWorkflowDefinition',
+    declaration: 'export interface RobotWorkflowDefinition {\n    readonly id: RobotWorkflowId;\n    readonly name: string;\n    readonly description: string;\n    readonly category: RobotWorkflowCategory;\n    readonly requirements: readonly RobotWorkflowRequirement[];\n    readonly stages: readonly RobotWorkflowStage[];\n    readonly reference?: string;\n}',
+  },
+  {
+    name: 'RobotWorkflowId',
+    declaration: 'export type RobotWorkflowId = Branded<\'RobotWorkflowId\'>;',
+  },
+  {
+    name: 'RobotWorkflowInspection',
+    declaration: 'export interface RobotWorkflowInspection {\n    readonly robot: RobotInspection;\n    readonly workflows: readonly RobotWorkflowResolution[];\n}',
+  },
+  {
+    name: 'RobotWorkflowRequirement',
+    declaration: 'export interface RobotWorkflowRequirement {\n    readonly id: RobotWorkflowRequirementId;\n    readonly name: string;\n    readonly description: string;\n    readonly required: boolean;\n    readonly alternatives: readonly RobotWorkflowAlternative[];\n}',
+  },
+  {
+    name: 'RobotWorkflowRequirementId',
+    declaration: 'export type RobotWorkflowRequirementId = Branded<\'RobotWorkflowRequirementId\'>;',
+  },
+  {
+    name: 'RobotWorkflowRequirementResolution',
+    declaration: 'export type RobotWorkflowRequirementResolution = {\n    readonly kind: \'ready\';\n    readonly requirement: RobotWorkflowRequirement;\n    readonly selection: RobotWorkflowSelection;\n} | {\n    readonly kind: \'degraded\';\n    readonly requirement: RobotWorkflowRequirement;\n    readonly selection: RobotWorkflowSelection;\n    readonly message: string;\n} | {\n    readonly kind: \'unavailable\';\n    readonly requirement: RobotWorkflowRequirement;\n    readonly selection: RobotWorkflowSelection;\n    readonly message: string;\n} | {\n    readonly kind: \'missing\';\n    readonly requirement: RobotWorkflowRequirement;\n};',
+  },
+  {
+    name: 'RobotWorkflowResolution',
+    declaration: 'export interface RobotWorkflowResolution {\n    readonly status: \'ready\' | \'degraded\' | \'blocked\';\n    readonly workflow: RobotWorkflowDefinition;\n    readonly requirements: readonly RobotWorkflowRequirementResolution[];\n}',
+  },
+  {
+    name: 'RobotWorkflowSelection',
+    declaration: 'export interface RobotWorkflowSelection {\n    readonly providerId: RobotProviderId;\n    readonly providerName: string;\n    readonly capabilityId: RobotCapabilityId;\n    readonly capabilityName: string;\n    readonly operationId: RobotOperationId;\n    readonly operationName: string;\n    readonly mode: RobotOperationMode;\n}',
+  },
+  {
+    name: 'RobotWorkflowStage',
+    declaration: 'export interface RobotWorkflowStage {\n    readonly id: RobotWorkflowStageId;\n    readonly name: string;\n    readonly description: string;\n    readonly requirementIds: readonly RobotWorkflowRequirementId[];\n    readonly verification: readonly string[];\n}',
+  },
+  {
+    name: 'RobotWorkflowStageId',
+    declaration: 'export type RobotWorkflowStageId = Branded<\'RobotWorkflowStageId\'>;',
+  },
+  {
     name: 'RpcId',
     declaration: 'export type RpcId = Branded<\'rpc-id\'>;',
   },
   {
     name: 'RRuleScheduleRecord',
     declaration: 'export interface RRuleScheduleRecord {\n    readonly kind: \'rrule\';\n    readonly id: ScheduleId;\n    readonly title: string;\n    readonly prompt: string;\n    readonly rrule: string;\n    readonly scheduledAt: string;\n}',
+  },
+  {
+    name: 'Run',
+    declaration: 'export type Run = z.infer<typeof runSchema>;',
   },
   {
     name: 'RunnerFailureRule',

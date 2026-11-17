@@ -1,0 +1,40 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/experimental/embodied-bundle/README.md
+/:
+  en: a630127bc2321902
+  zh: 33a24ad129425f0b
+/deepseek-ai-dsh-embodied-bundle:
+  en: 8123be3ad7904340
+  zh: 54ba6d6d5a163d0a
+/deepseek-ai-dsh-embodied-bundle/summary:
+  en: f1cc3b88e110bf2c
+  zh: 9356ee3359623838
+/deepseek-ai-dsh-embodied-bundle/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 75f067b4c4218355
+/deepseek-ai-dsh-embodied-bundle/use-this-package:
+  en: 4e53f47ede2d2e9a
+  zh: 53b6669dcf035763
+/deepseek-ai-dsh-embodied-bundle/use-this-package/add-a-custom-robot-tool:
+  en: b6b1df2a7f06263c
+  zh: e79ab100b5a215a0
+/deepseek-ai-dsh-embodied-bundle/understand-the-implementation:
+  en: bf58a502937d0309
+  zh: ffc3f1c08fd15f76
+/deepseek-ai-dsh-embodied-bundle/further-exploration:
+  en: 8f7e4a6d513104f4
+  zh: e3db6224523f1da3
+/deepseek-ai-dsh-embodied-bundle/model-experience:
+  en: 35f48334b7ac25ab
+  zh: ef9e9d92e8865787
+/deepseek-ai-dsh-embodied-bundle/model-experience/kv-cache-effect:
+  en: 4a4ccec6d2d748f8
+  zh: cd6ac035b56ae4b1
+/deepseek-ai-dsh-embodied-bundle/known-limitations-and-deferred-work:
+  en: 1179e4264840e3a5
+  zh: 49536d79668457a7
+/deepseek-ai-dsh-embodied-bundle/known-limitations-and-deferred-work/dev-note:
+  en: e67f633dc6fe7773
+  zh: e88aeb617ffb74ea

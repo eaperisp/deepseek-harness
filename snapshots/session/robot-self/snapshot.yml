@@ -1,0 +1,8 @@
+version: 1
+scenario: robot-self
+profile: headless
+composition: robot-self
+recording: authored
+header:
+  class: robot-self
+  pin: true

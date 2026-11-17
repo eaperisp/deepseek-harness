@@ -575,6 +575,23 @@ export interface Config {
 ```
 <!-- END GENERATED config-catalog:@deepseek-ai/dsh-client-shortcuts -->
 
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-client-ui-embodied -->
+<a id="deepseek-aidsh-client-ui-embodied"></a>
+
+## `@deepseek-ai/dsh-client-ui-embodied`
+
+- `inject`: `robot`
+- `source`: [`packages/experimental/client-ui-embodied/src/index.ts:11`](../packages/experimental/client-ui-embodied/src/index.ts)
+
+```ts config-catalog
+/** Timeout for an explicit inventory refresh. */
+export interface Config {
+  /** Maximum discovery duration in milliseconds. */
+  inspectionTimeoutMs: number
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-client-ui-embodied -->
+
 <!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-client-ui-plugin-manager -->
 <a id="deepseek-aidsh-client-ui-plugin-manager"></a>
 
@@ -895,6 +912,28 @@ export interface Config {
 }
 ```
 <!-- END GENERATED config-catalog:@deepseek-ai/dsh-deepseek-account-platform -->
+
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-embodied-project -->
+<a id="deepseek-aidsh-embodied-project"></a>
+
+## `@deepseek-ai/dsh-embodied-project`
+
+- `source`: [`packages/experimental/embodied-project/src/store.ts:12`](../packages/experimental/embodied-project/src/store.ts)
+
+```ts config-catalog
+/** Deployment limits for retained project documents and command input. */
+export interface StoreConfig {
+  /** Absolute directory containing project JSON files and lock files. */
+  root: string
+  /** Maximum UTF-8 bytes per stored document or incoming command. */
+  maxDocumentBytes: number
+  /** Maximum number of retained project documents. */
+  maxProjects: number
+  /** Maximum total revisions and runs retained in one project. */
+  maxHistory: number
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-embodied-project -->
 
 <!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-experimental-api-speech-to-text -->
 <a id="deepseek-aidsh-experimental-api-speech-to-text"></a>
@@ -2923,6 +2962,100 @@ export interface Config {
 ```
 <!-- END GENERATED config-catalog:@deepseek-ai/dsh-repeat-tool-reminder -->
 
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-robot-g1d -->
+<a id="deepseek-aidsh-robot-g1d"></a>
+
+## `@deepseek-ai/dsh-robot-g1d`
+
+- `inject`: `robot`
+- `source`: [`packages/experimental/robot-g1d/src/index.ts:12`](../packages/experimental/robot-g1d/src/index.ts)
+
+```ts config-catalog
+/** Deployment-selected G1-D endpoint and observation budgets. */
+export interface Config extends DiscoveryConfig {}
+
+/** Configurable service locations and freshness thresholds for a deployed gateway. */
+export interface DiscoveryConfig extends HttpConfig {
+  /** Stable provider id within this Host. */
+  providerId: string
+  /** Display name of the connected robot. */
+  robotName: string
+  /** Port serving the installed tool catalog. */
+  portalPort: number
+  /** Port serving camera and model health. */
+  yoloPort: number
+  /** Port serving localization and sensor observations. */
+  slamPort: number
+  /** Port serving lift calibration and height feedback. */
+  liftPort: number
+  /** Port serving suction device health. */
+  suctionPort: number
+  /** Maximum reported age for spatial and height feedback in seconds. */
+  maxDataAgeSeconds: number
+}
+
+/** Limits and exact host selected by the deployment, never by catalog response data. */
+export interface HttpConfig {
+  /** Configured HTTP(S) origin, without credentials, query or path. */
+  host: string
+  /** Per-request timeout in milliseconds. */
+  timeoutMs: number
+  /** Maximum UTF-8 response bytes accepted before parsing. */
+  maxResponseBytes: number
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-robot-g1d -->
+
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-robot-simulated -->
+<a id="deepseek-aidsh-robot-simulated"></a>
+
+## `@deepseek-ai/dsh-robot-simulated`
+
+- `inject`: `robot`
+- `source`: [`packages/experimental/robot-simulated/src/index.ts:15`](../packages/experimental/robot-simulated/src/index.ts)
+
+```ts config-catalog
+/** Simulated robot identity and initial observations. */
+export interface Config {
+  /** Stable provider id used by robot tools. */
+  providerId: string
+  /** Human-readable robot name. */
+  providerName: string
+  /** Nearest obstacle reported by the simulated radar. */
+  obstacleDistanceMeters: number
+  /** Label returned by simulated camera recognition. */
+  recognizedObjectLabel: string
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-robot-simulated -->
+
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-robot-spatial-memory -->
+<a id="deepseek-aidsh-robot-spatial-memory"></a>
+
+## `@deepseek-ai/dsh-robot-spatial-memory`
+
+- `inject`: `robot` · `storageDomain`
+- `source`: [`packages/experimental/robot-spatial-memory/src/index.ts:21`](../packages/experimental/robot-spatial-memory/src/index.ts)
+
+```ts config-catalog
+/** Provider identity and bounded storage/query limits. */
+export interface Config {
+  /** Stable provider id within this Host. */
+  providerId: string
+  /** Human-readable provider name. */
+  providerName: string
+  /** Maximum durable records; a full memory rejects new writes without eviction. */
+  maxRecords: number
+  /** Maximum UTF-8 bytes for one serialized record. */
+  maxSerializedRecordBytes: number
+  /** Recall result count when the caller omits `limit`. */
+  defaultRecallLimit: number
+  /** Maximum recall result count accepted from callers. */
+  maxRecallLimit: number
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-robot-spatial-memory -->
+
 <!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-sandbox-local -->
 <a id="deepseek-aidsh-sandbox-local"></a>
 
@@ -4332,6 +4465,31 @@ export interface Config {
 ```
 <!-- END GENERATED config-catalog:@deepseek-ai/dsh-tool-ralph -->
 
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-tool-robot -->
+<a id="deepseek-aidsh-tool-robot"></a>
+
+## `@deepseek-ai/dsh-tool-robot`
+
+- `inject`: `robot` · `tools` · `systemPrompt`
+- `source`: [`packages/experimental/tool-robot/src/index.ts:17`](../packages/experimental/tool-robot/src/index.ts)
+
+```ts config-catalog
+/** Model-tool time limits and physical-action approval policy. */
+export interface Config {
+  /** Maximum capability-discovery duration in milliseconds. */
+  inspectionTimeoutMs: number
+  /** Maximum observation or action duration in milliseconds. */
+  operationTimeoutMs: number
+  /** Whether every robot_act call asks through the approval seam before dispatch. */
+  requireActionApproval: boolean
+  /** Maximum serialized capability context; larger catalogs remain available through robot_inspect. */
+  maxContextCharacters: number
+  /** Ordered position of robot facts in the logged runtime context. */
+  contextOrder: number
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-tool-robot -->
+
 <!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-tool-session-query -->
 <a id="deepseek-aidsh-tool-session-query"></a>
 
@@ -4972,6 +5130,7 @@ export interface Config {
 | `@deepseek-ai/dsh-cua` | — | [`packages/experimental/cua/src/index.ts`](../packages/experimental/cua/src/index.ts) |
 | `@deepseek-ai/dsh-deepseek-llm-api-extensions` | — | [`packages/llm/deepseek-llm-api-extensions/src/index.ts`](../packages/llm/deepseek-llm-api-extensions/src/index.ts) |
 | `@deepseek-ai/dsh-deliverable-file-references` | `systemPrompt` | [`packages/deliverables/deliverable-file-references/src/index.ts`](../packages/deliverables/deliverable-file-references/src/index.ts) |
+| `@deepseek-ai/dsh-embodied-development` | `embodiedProjects` · `skills` | [`packages/experimental/embodied-development/src/index.ts`](../packages/experimental/embodied-development/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-auto-review` | `approval` · `llm` · `permissionPresets` · `sessions` · `tools` · `workingDirectory` | [`packages/experimental/auto-review/src/index.ts`](../packages/experimental/auto-review/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-client-ui-claude-code-mods` | — | [`packages/experimental/client-ui-claude-code-mods/src/index.ts`](../packages/experimental/client-ui-claude-code-mods/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-client-ui-stats` | — | [`packages/experimental/client-ui-stats/src/index.ts`](../packages/experimental/client-ui-stats/src/index.ts) |
@@ -4992,6 +5151,7 @@ export interface Config {
 | `@deepseek-ai/dsh-message-quotes` | — | [`packages/session/message-quotes/src/index.ts`](../packages/session/message-quotes/src/index.ts) |
 | `@deepseek-ai/dsh-otel` | — | [`packages/telemetry/otel/src/index.ts`](../packages/telemetry/otel/src/index.ts) |
 | `@deepseek-ai/dsh-plugin-recommendations` | `pluginManager` · `agents` · `skills` · `actionCards` | [`packages/experimental/plugin-recommendations/src/index.ts`](../packages/experimental/plugin-recommendations/src/index.ts) |
+| `@deepseek-ai/dsh-robot` | — | [`packages/experimental/robot/src/index.ts`](../packages/experimental/robot/src/index.ts) |
 | `@deepseek-ai/dsh-sandbox-ssh` | `ssh` | [`packages/ssh/sandbox-ssh/src/index.ts`](../packages/ssh/sandbox-ssh/src/index.ts) |
 | `@deepseek-ai/dsh-session` | — | [`packages/core/session/src/index.ts`](../packages/core/session/src/index.ts) |
 | `@deepseek-ai/dsh-session-checkpoint-policy` | `llm` · `sessionPersistence` · `sessions` · `tools` | [`packages/session/session-checkpoint-policy/src/index.ts`](../packages/session/session-checkpoint-policy/src/index.ts) |
@@ -5006,6 +5166,7 @@ export interface Config {
 | `@deepseek-ai/dsh-terminal` | — | [`packages/terminal/terminal/src/index.ts`](../packages/terminal/terminal/src/index.ts) |
 | `@deepseek-ai/dsh-tool-call-timeout-policy` | `tools` | [`packages/guard/timeout-policy/src/index.ts`](../packages/guard/timeout-policy/src/index.ts) |
 | `@deepseek-ai/dsh-tool-cordis` | `tools` · `cordisInspect` | [`packages/extensions/tool-cordis/src/index.ts`](../packages/extensions/tool-cordis/src/index.ts) |
+| `@deepseek-ai/dsh-tool-embodied-project` | `embodiedProjects` · `tools` | [`packages/experimental/tool-embodied-project/src/index.ts`](../packages/experimental/tool-embodied-project/src/index.ts) |
 | `@deepseek-ai/dsh-tool-executor-native` | `tools` | [`packages/core/tool-executor-native/src/index.ts`](../packages/core/tool-executor-native/src/index.ts) |
 | `@deepseek-ai/dsh-tool-schedule` | `tools` · `systemPrompt` | [`packages/schedule/tool-schedule/src/index.ts`](../packages/schedule/tool-schedule/src/index.ts) |
 | `@deepseek-ai/dsh-tool-working-directory` | `tools` · `workingDirectory` | [`packages/session/tool-working-directory/src/index.ts`](../packages/session/tool-working-directory/src/index.ts) |
@@ -5063,6 +5224,7 @@ export interface Config {
 | `@deepseek-ai/dsh-cmdline` | — | [`packages/boot/cmdline/src/index.ts`](../packages/boot/cmdline/src/index.ts) |
 | `@deepseek-ai/dsh-cua-bundle` | — | [`packages/experimental/cua-bundle/src/index.ts`](../packages/experimental/cua-bundle/src/index.ts) |
 | `@deepseek-ai/dsh-deque` | — | [`packages/util/deque/src/index.ts`](../packages/util/deque/src/index.ts) |
+| `@deepseek-ai/dsh-embodied-bundle` | — | [`packages/experimental/embodied-bundle/src/index.ts`](../packages/experimental/embodied-bundle/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-badge-skill-bundle` | — | [`packages/experimental/badge-skill-bundle/src/index.ts`](../packages/experimental/badge-skill-bundle/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-browser-use-runtime` | — | [`packages/experimental/browser-use-runtime/src/index.ts`](../packages/experimental/browser-use-runtime/src/index.ts) |
 | `@deepseek-ai/dsh-experimental-cot-translation-bundle` | — | [`packages/experimental/cot-translation-bundle/src/index.ts`](../packages/experimental/cot-translation-bundle/src/index.ts) |

@@ -1,0 +1,8 @@
+version: 1
+scenario: embodied-catalog
+profile: headless
+composition: embodied-catalog
+recording: authored
+header:
+  class: embodied-catalog
+  pin: true

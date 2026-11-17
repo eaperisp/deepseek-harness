@@ -1,0 +1,3 @@
+- insert:
+    - id: example-robot-inventory-tool
+      name: './inventory-tool.ts'

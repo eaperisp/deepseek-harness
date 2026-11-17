@@ -1,0 +1,13 @@
+- insert:
+    - id: embodied-robot-runtime
+      name: '@deepseek-ai/dsh-robot'
+    - id: embodied-robot-g1d
+      name: '@deepseek-ai/dsh-robot-g1d'
+      config:
+        host: !!js process.env.DSH_ROBOT_HOST ?? 'http://127.0.0.1'
+    - id: embodied-spatial-memory
+      name: '@deepseek-ai/dsh-robot-spatial-memory'
+    - id: embodied-robot-tools
+      name: '@deepseek-ai/dsh-tool-robot'
+    - id: embodied-workbench
+      name: '@deepseek-ai/dsh-client-ui-embodied'

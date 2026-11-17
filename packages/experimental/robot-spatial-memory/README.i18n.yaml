@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/experimental/robot-spatial-memory/README.md
+/:
+  en: 4bdba89a7d4c8389
+  zh: 8d7ee8018b53299a
+/deepseek-ai-dsh-robot-spatial-memory:
+  en: 5bc0985ee6b352cf
+  zh: dc8a681f7c3375bd
+/deepseek-ai-dsh-robot-spatial-memory/summary:
+  en: b6cb0fdb8d6617ca
+  zh: 9fca6044b3f9df43
+/deepseek-ai-dsh-robot-spatial-memory/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: b00dddf4c88f0a45
+/deepseek-ai-dsh-robot-spatial-memory/use-this-package:
+  en: d1e395fa71fff3ae
+  zh: 01c9348cbfa97968
+/deepseek-ai-dsh-robot-spatial-memory/understand-the-implementation:
+  en: 58accff2e2668e5d
+  zh: 74bce5f8ee3589fa
+/deepseek-ai-dsh-robot-spatial-memory/further-exploration:
+  en: 07c79fac455d4479
+  zh: 461ff8432b7c1a7f
+/deepseek-ai-dsh-robot-spatial-memory/model-experience:
+  en: f74cf2d4efe8cbb4
+  zh: 2de7b8881361d2ea
+/deepseek-ai-dsh-robot-spatial-memory/model-experience/kv-cache-effect:
+  en: 0c445257d5faf21e
+  zh: a98de3b4d3b3b50e
+/deepseek-ai-dsh-robot-spatial-memory/known-limitations-and-deferred-work:
+  en: e905573873db3f8a
+  zh: 60248328141e2093
+/deepseek-ai-dsh-robot-spatial-memory/known-limitations-and-deferred-work/dev-note:
+  en: c71d8690240dd334
+  zh: 1eb9aea72ffb080b

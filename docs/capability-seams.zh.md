@@ -9,6 +9,17 @@
 
 ```mermaid
 flowchart LR
+  pkg_embodied_project["embodied-project"]
+  svc_embodiedProjects["ctx.embodiedProjects<br/>Embodied development projects"]
+  pkg_embodied_development["embodied-development"]
+  pkg_tool_embodied_project["tool-embodied-project"]
+  pkg_client_ui_embodied["client-ui-embodied"]
+  pkg_robot["robot"]
+  svc_robot["ctx.robot<br/>Robot capability registry"]
+  pkg_robot_simulated["robot-simulated"]
+  pkg_robot_g1d["robot-g1d"]
+  pkg_tool_robot["tool-robot"]
+  svc_robotStudio["ctx.robotStudio<br/>Embodied workbench Remote"]
   pkg_action_cards["action-cards"]
   svc_actionCards["ctx.actionCards<br/>Optional action cards"]
   pkg_creation_recommendations["creation-recommendations"]
@@ -346,6 +357,7 @@ flowchart LR
   pkg_client_file_upload --> svc_fileUploads
   pkg_client_modules --> svc_clientModules
   pkg_client_product_analytics --> svc_productAnalytics
+  pkg_client_ui_embodied --> svc_robotStudio
   pkg_client_ui_plugin_manager --> svc_pluginRegistryProbe
   pkg_command_feedback --> svc_sessionFeedback
   pkg_commands --> svc_commands
@@ -362,6 +374,8 @@ flowchart LR
   pkg_deepseek_account --> svc_deepseekAccount
   pkg_deepseek_account_platform --> svc_deepseekAccount
   pkg_deepseek_llm_api_extensions --> svc_deepseekLlmApiExtensions
+  pkg_embodied_development --> svc_embodiedProjects
+  pkg_embodied_project --> svc_embodiedProjects
   pkg_experimental_api_speech_to_text --> svc_speechController
   pkg_experimental_browser_use_chrome_devtools_mcp --> svc_browserUse
   pkg_experimental_browser_use_playwright_mcp --> svc_browserUse
@@ -418,6 +432,9 @@ flowchart LR
   pkg_ptc_runtime --> svc_ptcRuntime
   pkg_ptc_runtime_node --> svc_ptcRuntime
   pkg_pwsh_local --> svc_shell
+  pkg_robot --> svc_robot
+  pkg_robot_g1d --> svc_robot
+  pkg_robot_simulated --> svc_robot
   pkg_sandbox --> svc_sandbox
   pkg_sandbox_local --> svc_sandbox
   pkg_sandbox_policy --> svc_sandboxPolicy
@@ -522,6 +539,8 @@ flowchart LR
   svc_deepseekLlmApiExtensions --> pkg_llm_deepseek
   svc_directoryPicker --> pkg_api_workspace_controller
   svc_dynamicCordisRunner --> pkg_tool_cordis
+  svc_embodiedProjects --> pkg_client_ui_embodied
+  svc_embodiedProjects --> pkg_tool_embodied_project
   svc_fileReferences --> pkg_api_session_controller
   svc_fileUploads --> pkg_api_session_controller
   svc_forge --> pkg_experimental_client_ui_forge
@@ -554,6 +573,9 @@ flowchart LR
   svc_remoteAccess --> pkg_api_gateway
   svc_remoteAccess --> pkg_api_session_controller
   svc_remoteAccess --> pkg_api_workspace_controller
+  svc_robot --> pkg_client_ui_embodied
+  svc_robot --> pkg_tool_robot
+  svc_robotStudio --> pkg_client_ui_embodied
   svc_sandbox --> pkg_bash_sandbox
   svc_sandbox --> pkg_terminal_bash
   svc_sandboxPolicy --> pkg_bash_sandbox
@@ -651,6 +673,9 @@ flowchart LR
 
 | ctx 键 | 角色 | 所属包 | 实现 | 直接消费方 | 配套插件 | 说明 |
 | --- | --- | --- | --- | --- | --- | --- |
+| `ctx.embodiedProjects` | `seam` | [`embodied-project`](../packages/experimental/embodied-project) | [`embodied-development`](../packages/experimental/embodied-development) | [`tool-embodied-project`](../packages/experimental/tool-embodied-project), [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | 模板和设备提供者贡献样例工作流；消费者共享带版本的项目存储和证据。 |
+| `ctx.robot` | `seam` | [`robot`](../packages/experimental/robot) | [`robot-simulated`](../packages/experimental/robot-simulated), [`robot-g1d`](../packages/experimental/robot-g1d) | [`tool-robot`](../packages/experimental/tool-robot), [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | 适配器声明当前操作；工具通过经过校验的调度发现、观测并请求获准的物理动作。 |
+| `ctx.robotStudio` | `core` | [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | 可选自身面板读取机器人注册表；样例项目派发要求独立挂载相关服务。 |
 | `ctx.actionCards` | `service` | [`action-cards`](../packages/experimental/action-cards) | - | [`creation-recommendations`](../packages/experimental/creation-recommendations), [`client-ui-action-cards`](../packages/experimental/client-ui-action-cards) | - | 负责卡片工具、卡片状态、用户操作和状态通知；各卡片种类注册自己的动作和处理器。 |
 | `ctx.pluginRecommendations` | `service` | [`plugin-recommendations`](../packages/experimental/plugin-recommendations) | - | [`client-ui-plugin-recommendations`](../packages/experimental/client-ui-plugin-recommendations) | - | 读取官方插件卡片的当前目录文本，并在用户点击后通过配置插件管理器启用该插件。 |
 | `ctx.headlessStartup` | `core` | [`headless`](../packages/bundle/headless) | - | [`headless`](../packages/bundle/headless) | - | 将解析后的任务和运行选项提供给无界面运行器及其 sandbox-policy 配置。 |

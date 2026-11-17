@@ -64,6 +64,16 @@ kind: "package-group"
 | [`speech-to-text`](speech-to-text/README.zh.md) | 具名语音识别 Provider | `ctx.speechToText` |
 | [`speech-to-text-sensevoice`](speech-to-text-sensevoice/README.zh.md) | 托管本地 SenseVoice 推理 | — |
 | [`api-speech-to-text`](api-speech-to-text/README.zh.md) | 带认证的临时转写 Remote | `ctx.speechController` |
+| [`robot`](robot/README.zh.md) | 机器人能力发现、校验和指定提供者路由 | `ctx.robot` |
+| [`embodied-project`](embodied-project/README.zh.md) | 带版本的开发项目及样例证据 | `ctx.embodiedProjects` |
+| [`embodied-development`](embodied-development/README.zh.md) | 新手技能及标注模板提供者 | 项目和技能 |
+| [`tool-embodied-project`](tool-embodied-project/README.zh.md) | 项目命令工具 | `ctx.tools` |
+| [`client-ui-embodied`](client-ui-embodied/README.zh.md) | 已连接机器人清单及能力证据 | `ctx.robotStudio` |
+| [`robot-g1d`](robot-g1d/README.zh.md) | G1-D 网关发现及已验证观测 | 在 `ctx.robot` 上注册提供者 |
+| [`robot-spatial-memory`](robot-spatial-memory/README.zh.md) | 持久化历史空间观测与查询 | 在 `ctx.robot` 上注册提供者 |
+| [`embodied-bundle`](embodied-bundle/README.zh.md) | 可选具身 Harness 组合 | 配置档补丁 |
+| [`robot-simulated`](robot-simulated/README.zh.md) | 确定性的雷达、相机、感知、夹爪和移动底盘提供者 | 在 `ctx.robot` 上注册提供者 |
+| [`tool-robot`](tool-robot/README.zh.md) | 机器人发现、观察和经审批物理动作的模型工具 | `ctx.tools` |
 | [`client-ui-voice-input`](client-ui-voice-input/README.zh.md) | 麦克风录音与版本检查后的草稿插入 | — |
 | [`plugin-market-bundle`](plugin-market-bundle/README.zh.md) | 默认禁用的可选自定义插件索引：索引服务和「发现」标签页 | — |
 | [`liveshare`](liveshare/README.zh.md) | 可选 LiveShare host bundle：通过 Relay 以 `view` 或 `write` 档分享会话，派生与附件上传为独立开关 | 注入 `connection`；通过宿主 Web 资源提供查看页 |

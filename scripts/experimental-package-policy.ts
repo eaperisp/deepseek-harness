@@ -25,6 +25,16 @@ export const EXPERIMENTAL_PACKAGE_NAME_EXCEPTIONS: Readonly<Record<string, strin
   'packages/experimental/plugin-recommendations': '@deepseek-ai/dsh-plugin-recommendations',
   'packages/experimental/client-ui-plugin-recommendations': '@deepseek-ai/dsh-client-ui-plugin-recommendations',
   'packages/experimental/personalized-recommendations': '@deepseek-ai/dsh-personalized-recommendations',
+  'packages/experimental/robot': '@deepseek-ai/dsh-robot',
+  'packages/experimental/embodied-project': '@deepseek-ai/dsh-embodied-project',
+  'packages/experimental/embodied-bundle': '@deepseek-ai/dsh-embodied-bundle',
+  'packages/experimental/embodied-development': '@deepseek-ai/dsh-embodied-development',
+  'packages/experimental/tool-embodied-project': '@deepseek-ai/dsh-tool-embodied-project',
+  'packages/experimental/client-ui-embodied': '@deepseek-ai/dsh-client-ui-embodied',
+  'packages/experimental/robot-simulated': '@deepseek-ai/dsh-robot-simulated',
+  'packages/experimental/robot-g1d': '@deepseek-ai/dsh-robot-g1d',
+  'packages/experimental/robot-spatial-memory': '@deepseek-ai/dsh-robot-spatial-memory',
+  'packages/experimental/tool-robot': '@deepseek-ai/dsh-tool-robot',
 } satisfies Record<`packages/experimental/${string}`, `@deepseek-ai/dsh-${string}`>
 
 /** Legacy npm namespace, allowed only in `LEGACY_PREFIXED_EXPERIMENTAL_PACKAGE_DIRECTORIES`. */

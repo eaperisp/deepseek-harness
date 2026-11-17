@@ -1,0 +1,65 @@
+- id: llm-deepseek
+  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+  disabled: true
+
+- id: agent-default-model
+  name: '@deepseek-ai/dsh-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-flash
+
+- id: session-persistence-jsonl
+  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+    compression: none
+
+- id: tool-executor-native
+  disabled: false
+
+- id: tool-executor-ptc
+  disabled: true
+
+- insert:
+    - id: embodied-catalog-directory
+      name: '../../../packages/test-support/session-snapshot/tests/fixtures/embodied-catalog-directory.ts'
+    - id: embodied-projects
+      name: '@deepseek-ai/dsh-embodied-project'
+      config:
+        root: !!js dshHomePath('embodied-projects')
+    - id: embodied-development
+      name: '@deepseek-ai/dsh-embodied-development'
+    - id: embodied-project-tools
+      name: '@deepseek-ai/dsh-tool-embodied-project'
+    - id: llm-replay
+      name: '@deepseek-ai/dsh-llm-replay'
+      config:
+        providers:
+          - id: deepseek-official
+            name: DeepSeek
+            models:
+              - id: deepseek-v4-flash
+
+# Catalog discovery needs no process execution or platform-specific shell skills.
+- id: sandbox
+  disabled: true
+- id: tool-bash
+  disabled: true
+- id: tool-pwsh
+  disabled: true
+- id: bash-sandbox
+  disabled: true
+- id: pwsh-sandbox
+  disabled: true
+- id: permission
+  disabled: true
+- id: ptc-runtime
+  disabled: true
+- id: workflow-ptc
+  disabled: true
+- id: tool-workflow
+  disabled: true
+- id: hooks-claude-code
+  disabled: true
+- id: hooks-codex
+  disabled: true

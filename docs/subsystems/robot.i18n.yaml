@@ -1,0 +1,43 @@
+# Bilingual-pair consistency record for robot.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/robot.md
+/robot-integration:
+  en: 69d009c2ebbfacf6
+  zh: 32e4d6a2ece9bdce
+/robot-integration/architecture:
+  en: 03843afe1fe8c179
+  zh: 1278285b3a32d639
+/robot-integration/public-vocabulary:
+  en: 7ec4eb059d92a211
+  zh: 1ac8bf20b6a88cbd
+/robot-integration/public-vocabulary/robotprovider:
+  en: 3ecd1f190a9d7266
+  zh: 4203b2fa9a353bb4
+/robot-integration/public-vocabulary/robotcapability:
+  en: 47d2e98c37efd584
+  zh: e32306f49c954db1
+/robot-integration/public-vocabulary/robotexecutionrequest:
+  en: 5cca113d7c176dd1
+  zh: c6c335181bbd570d
+/robot-integration/public-vocabulary/robotinspection:
+  en: 7be74b19550eddcd
+  zh: 7df5195d8d546a09
+/robot-integration/public-vocabulary/robotoperationoutcome:
+  en: 2e6c497628fe8f1e
+  zh: 83da0cf07329c1dd
+/robot-integration/public-vocabulary/robotworkflowdefinition:
+  en: 5edbed19c20853b1
+  zh: 9c083f3c7c3654ed
+/robot-integration/standard-workflows:
+  en: 987b1a2840a4934d
+  zh: 3e0016b520098b01
+/robot-integration/command-flow:
+  en: ed4ac2ee05c51895
+  zh: faa32b039a2b2426
+/robot-integration/hardware-adapter-requirements:
+  en: 42f95496c6eab478
+  zh: abac3bb55305d808
+/robot-integration/delivery-stages:
+  en: 27c615359837fa79
+  zh: 04746f66bf5ec7f7

@@ -9,8 +9,8 @@
   en: 6cc2cd9ced70bb09
   zh: 1c0e6cb4ba2ed637
 /tool-schema-catalog/tool-package-map:
-  en: 7b5b99bcc5cd46f4
-  zh: c1697f88326440ff
+  en: 82e0ff50ded4961b
+  zh: bb3a51228a5cc23b
 /tool-schema-catalog/deepseek-ai-dsh-plugin-manager:
   en: e0143916bb634762
   zh: e0143916bb634762
@@ -309,8 +309,29 @@
   en: d5f5679abe86e316
   zh: d5f5679abe86e316
 /tool-schema-catalog/deepseek-ai-dsh-experimental-tool-worktree/create-worktree:
-  en: 41950f76db71e7f7
-  zh: 654d2e5505ff3d3c
+  en: 15bfe38bee987f45
+  zh: 553a5fe6fdb5d521
+/tool-schema-catalog/deepseek-ai-dsh-tool-robot:
+  en: b466ac9e6b0d2022
+  zh: b466ac9e6b0d2022
+/tool-schema-catalog/deepseek-ai-dsh-tool-robot/robot-act:
+  en: 1f4a4190b093aebb
+  zh: 30f6b4babecd38b8
+/tool-schema-catalog/deepseek-ai-dsh-tool-robot/robot-inspect:
+  en: 74f132bc36627c86
+  zh: c88687d23b019f03
+/tool-schema-catalog/deepseek-ai-dsh-tool-robot/robot-observe:
+  en: a8cc0b0d52c658bf
+  zh: 0f7d9ec72bbbb68d
+/tool-schema-catalog/deepseek-ai-dsh-tool-robot/robot-workflow:
+  en: 876da0ed1e3011e1
+  zh: c1ac5427c4bfe4ea
+/tool-schema-catalog/deepseek-ai-dsh-tool-embodied-project:
+  en: b759448fd7702df6
+  zh: b759448fd7702df6
+/tool-schema-catalog/deepseek-ai-dsh-tool-embodied-project/embodied-project:
+  en: 1bdb8e7a4cc25739
+  zh: 684ff8245f840417
 /tool-schema-catalog/deepseek-ai-dsh-tool-workflow:
   en: bb38a9d29f46563c
   zh: bb38a9d29f46563c

@@ -108,6 +108,21 @@ const GROUP_ORDER = [
 
 const SERVICE_ROLES: ServiceRole[] = [
   {
+    key: 'embodiedProjects', pkg: 'embodied-project', title: 'Embodied development projects', mode: 'seam',
+    implementations: ['embodied-development'], consumers: ['tool-embodied-project', 'client-ui-embodied'],
+    note: 'Template and target providers contribute sample workflows; consumers share revisioned project storage and evidence.',
+  },
+  {
+    key: 'robot', pkg: 'robot', title: 'Robot capability registry', mode: 'seam',
+    implementations: ['robot-simulated', 'robot-g1d'], consumers: ['tool-robot', 'client-ui-embodied'],
+    note: 'Adapters declare current operations; tools discover, observe and request approved physical actions through validated dispatch.',
+  },
+  {
+    key: 'robotStudio', pkg: 'client-ui-embodied', title: 'Embodied workbench Remote', mode: 'core',
+    consumers: ['client-ui-embodied'],
+    note: 'The optional self panel reads the robot registry; sample project dispatch requires separately mounted services.',
+  },
+  {
     key: 'actionCards',
     pkg: 'action-cards',
     title: 'Optional action cards',

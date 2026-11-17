@@ -1,0 +1,46 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/experimental/embodied-development/README.md
+/:
+  en: fb4fe79f41d0b868
+  zh: fb8b883bec438286
+/deepseek-ai-dsh-embodied-development:
+  en: 8a8532c7f1571747
+  zh: 7a380ac0705cbee5
+/deepseek-ai-dsh-embodied-development/summary:
+  en: 45303581f4456c14
+  zh: d0174c3d8ea6c4ef
+/deepseek-ai-dsh-embodied-development/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 75f067b4c4218355
+/deepseek-ai-dsh-embodied-development/use-this-package:
+  en: 90c5020b7c9479b2
+  zh: f6be11f148a89d40
+/deepseek-ai-dsh-embodied-development/understand-the-implementation:
+  en: ea47301077ef3a6d
+  zh: b5506ce7f8261e98
+/deepseek-ai-dsh-embodied-development/further-exploration:
+  en: 8f7e4a6d513104f4
+  zh: e3db6224523f1da3
+/deepseek-ai-dsh-embodied-development/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-embodied-development/model-experience/development-context:
+  en: ff388b84e7f0280b
+  zh: c2a354ff00b665e1
+/deepseek-ai-dsh-embodied-development/model-experience/development-context/what-the-model-sees:
+  en: bbc83b01dfc90b46
+  zh: 41718aad95b97f0e
+/deepseek-ai-dsh-embodied-development/model-experience/development-context/token-effect:
+  en: 3cf3e8df3a0a6d52
+  zh: 12f5d1df2ad84a70
+/deepseek-ai-dsh-embodied-development/model-experience/development-context/kv-cache-effect:
+  en: 6bc1cdfcb8808777
+  zh: b52778002d019a00
+/deepseek-ai-dsh-embodied-development/known-limitations-and-deferred-work:
+  en: b7be396aea8a6ae4
+  zh: 845a6556faee9cb0
+/deepseek-ai-dsh-embodied-development/known-limitations-and-deferred-work/dev-note:
+  en: e67f633dc6fe7773
+  zh: e88aeb617ffb74ea

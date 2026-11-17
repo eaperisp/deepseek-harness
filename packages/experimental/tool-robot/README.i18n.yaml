@@ -1,0 +1,46 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/experimental/tool-robot/README.md
+/:
+  en: d1f4bbc567fedd49
+  zh: fc4a03da5f37b532
+/deepseek-ai-dsh-tool-robot:
+  en: 452c3cde463c6b91
+  zh: a04a05384f4d12a8
+/deepseek-ai-dsh-tool-robot/summary:
+  en: 1e755323cce96bf7
+  zh: 1de3ed67792a3303
+/deepseek-ai-dsh-tool-robot/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: b00dddf4c88f0a45
+/deepseek-ai-dsh-tool-robot/use-this-package:
+  en: 8c28b920657c1533
+  zh: da48e8c6d7649017
+/deepseek-ai-dsh-tool-robot/understand-the-implementation:
+  en: 730d7fc835010416
+  zh: 490a6f2ea2274de5
+/deepseek-ai-dsh-tool-robot/further-exploration:
+  en: 716fb6529be3bf01
+  zh: 9da8d7a29d2162f9
+/deepseek-ai-dsh-tool-robot/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-tool-robot/model-experience/robot-tool-schemas:
+  en: c5d4a615759a270c
+  zh: fe17b627f939e745
+/deepseek-ai-dsh-tool-robot/model-experience/robot-tool-schemas/what-the-model-sees:
+  en: 77644aa7d663c0e4
+  zh: 0c03130de431c22b
+/deepseek-ai-dsh-tool-robot/model-experience/robot-tool-schemas/token-effect:
+  en: aa7a2889f0ea0fb9
+  zh: 8602820b1acd0a46
+/deepseek-ai-dsh-tool-robot/model-experience/robot-tool-schemas/kv-cache-effect:
+  en: d2f48360fb3f373e
+  zh: 24a68d0b6f61ad6b
+/deepseek-ai-dsh-tool-robot/known-limitations-and-deferred-work:
+  en: 405f613fdab85619
+  zh: 5e01227f6d8f3ba9
+/deepseek-ai-dsh-tool-robot/known-limitations-and-deferred-work/dev-note:
+  en: ab5037b91e0b762a
+  zh: c465a09d7b9e45ad

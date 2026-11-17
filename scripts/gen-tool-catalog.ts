@@ -33,6 +33,10 @@ import LocalFileSystem from '@deepseek-ai/dsh-fs-local'
 import WorkingDirectory from '@deepseek-ai/dsh-working-directory'
 import * as ToolWorkingDirectory from '@deepseek-ai/dsh-tool-working-directory'
 import * as ToolWorktree from '@deepseek-ai/dsh-experimental-tool-worktree'
+import RobotRuntime from '@deepseek-ai/dsh-robot'
+import * as ToolRobot from '@deepseek-ai/dsh-tool-robot'
+import EmbodiedProjects from '@deepseek-ai/dsh-embodied-project'
+import * as ToolEmbodiedProject from '@deepseek-ai/dsh-tool-embodied-project'
 import { AttachmentStore } from '@deepseek-ai/dsh-attachment'
 import type { ImageAttachmentLimits, ImageAttachmentRef, SaveImageAttachment, StoredImageAttachment } from '@deepseek-ai/dsh-attachment'
 import UserQuestionService from '@deepseek-ai/dsh-user-questions'
@@ -687,6 +691,30 @@ const TOOL_PACKAGES: ToolPackage[] = [
       await ctx.plugin(ToolWorktree)
     },
     note: 'Enabled through the Change requests & worktrees bundle on Web and Desktop; other profiles can select the standalone bundle. Creates a new branch and checkout from a pinned local commit under existing write permissions, then changes the Session directory. Leaving retains the branch and checkout.',
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-robot',
+    dir: 'tool-robot',
+    source: 'packages/experimental/tool-robot/src/tools.ts',
+    requires: ['ctx.tools', 'ctx.robot', 'user approval for robot_act by default'],
+    writes: ['tool/call', 'tool/result', 'provider-owned physical effects after approval'],
+    async mount(ctx) {
+      await ctx.plugin(RobotRuntime)
+      await ctx.plugin(ToolRobot)
+    },
+    note: 'robot_workflow compares live capabilities with standard embodied workflows without executing operations. robot_inspect discovers current provider capabilities. robot_observe accepts only read-only operations; robot_act accepts only physical actions and asks for approval by default. Robot controllers retain collision, limit, interlock, watchdog and emergency-stop enforcement.',
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-embodied-project',
+    dir: 'tool-embodied-project',
+    source: 'packages/experimental/tool-embodied-project/src/index.ts',
+    requires: ['ctx.tools', 'ctx.embodiedProjects'],
+    writes: ['tool/call', 'tool/result', 'revisioned project files'],
+    async mount(ctx) {
+      await ctx.plugin(EmbodiedProjects, { root: resolve('unused-catalog-projects') })
+      await ctx.plugin(ToolEmbodiedProject)
+    },
+    note: 'Project templates and targets are discovered at runtime. Sample runs record revision-bound evidence and never claim model inference or hardware validation.',
   },
   {
     pkg: '@deepseek-ai/dsh-tool-workflow',

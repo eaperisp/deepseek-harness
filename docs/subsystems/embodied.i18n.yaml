@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for embodied.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/embodied.md
+/:
+  en: b435f405bc463f3b
+  zh: b0d3a6b879adde51
+/embodied-harness:
+  en: 82b7f07bd618e0b9
+  zh: 928d0bedb1608390
+/embodied-harness/summary:
+  en: f01331f3bb8e15f3
+  zh: 8b8caa49e571ca3a
+/embodied-harness/table-of-contents:
+  en: b3bea350b785a628
+  zh: eb8f3ed1b9023b8e
+/embodied-harness/architecture-and-directories:
+  en: bf737a7a2b7d0395
+  zh: 6edd079471dc7c70
+/embodied-harness/task-and-development-flow:
+  en: 82f95ed5e058500e
+  zh: 03082f0aa0a3a751
+/embodied-harness/robot-portability:
+  en: a785f7af5fc248d2
+  zh: 104bcbedd83e98c1
+/embodied-harness/evidence-and-execution-limits:
+  en: c6ed11bf54b2610d
+  zh: f434daaba00857cd

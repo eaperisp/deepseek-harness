@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/experimental/robot-g1d/README.md
+/:
+  en: 40b3f53edeae3b55
+  zh: bf8b29cdaee1cdd2
+/deepseek-ai-dsh-robot-g1d:
+  en: c934dc4b93cfa77a
+  zh: cf9374505d161157
+/deepseek-ai-dsh-robot-g1d/summary:
+  en: 19868a92883aa020
+  zh: b75b7637c85632f2
+/deepseek-ai-dsh-robot-g1d/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: b00dddf4c88f0a45
+/deepseek-ai-dsh-robot-g1d/use-this-package:
+  en: e129eb24195cc70a
+  zh: 654f840ffe31fcfa
+/deepseek-ai-dsh-robot-g1d/understand-the-implementation:
+  en: 296d1b0c7bd1193d
+  zh: 5e5dc75d5e6b9c08
+/deepseek-ai-dsh-robot-g1d/further-exploration:
+  en: f67a4d631fd736ce
+  zh: 0b33cb84376e5e7c
+/deepseek-ai-dsh-robot-g1d/model-experience:
+  en: b7878e937988c0fc
+  zh: a3a609365bdf8d05
+/deepseek-ai-dsh-robot-g1d/model-experience/kv-cache-effect:
+  en: 12b12abe9c431e81
+  zh: 5242f23be2175d8d
+/deepseek-ai-dsh-robot-g1d/known-limitations-and-deferred-work:
+  en: be7ea59bb5d6c2eb
+  zh: e6f9124aa7fb6b3d
+/deepseek-ai-dsh-robot-g1d/known-limitations-and-deferred-work/dev-note:
+  en: 18a06e690225ead0
+  zh: 918e23a7e70884c6

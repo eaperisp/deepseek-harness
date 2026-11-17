@@ -64,6 +64,16 @@ Promotion requires a named product role, documented public behavior and limitati
 | [`speech-to-text`](speech-to-text/README.md) | Named speech recognition providers | `ctx.speechToText` |
 | [`speech-to-text-sensevoice`](speech-to-text-sensevoice/README.md) | Managed local SenseVoice inference | — |
 | [`api-speech-to-text`](api-speech-to-text/README.md) | Authenticated transient transcription Remote | `ctx.speechController` |
+| [`robot`](robot/README.md) | Robot capability discovery, validation and exact provider routing | `ctx.robot` |
+| [`embodied-project`](embodied-project/README.md) | Revisioned development projects and sample evidence | `ctx.embodiedProjects` |
+| [`embodied-development`](embodied-development/README.md) | Beginner skill and annotated template providers | projects and skills |
+| [`tool-embodied-project`](tool-embodied-project/README.md) | Project command tools | `ctx.tools` |
+| [`client-ui-embodied`](client-ui-embodied/README.md) | Connected robot inventory and capability evidence | `ctx.robotStudio` |
+| [`robot-g1d`](robot-g1d/README.md) | G1-D gateway discovery and verified observations | registers a provider on `ctx.robot` |
+| [`robot-spatial-memory`](robot-spatial-memory/README.md) | Durable historical spatial observations and recall | registers a provider on `ctx.robot` |
+| [`embodied-bundle`](embodied-bundle/README.md) | Optional embodied Harness composition | profile patch |
+| [`robot-simulated`](robot-simulated/README.md) | Deterministic radar, camera, perception, gripper and mobile-base provider | registers a provider on `ctx.robot` |
+| [`tool-robot`](tool-robot/README.md) | Model tools for robot discovery, observation and approved physical actions | `ctx.tools` |
 | [`client-ui-voice-input`](client-ui-voice-input/README.md) | Microphone capture and guarded draft insertion | — |
 | [`plugin-market-bundle`](plugin-market-bundle/README.md) | Default-disabled optional custom plugin indexes: the index service and the Discover tab | — |
 | [`liveshare`](liveshare/README.md) | Opt-in LiveShare host bundle: Relay-backed Session sharing at the `view` or `write` tier, with forking and attachment uploads as independent switches | injects `connection`; serves the viewer page through the Host's web resources |

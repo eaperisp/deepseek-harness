@@ -7,6 +7,17 @@ A service can be a core spine service, a swappable capability seam, a bundle/com
 
 ```mermaid
 flowchart LR
+  pkg_embodied_project["embodied-project"]
+  svc_embodiedProjects["ctx.embodiedProjects<br/>Embodied development projects"]
+  pkg_embodied_development["embodied-development"]
+  pkg_tool_embodied_project["tool-embodied-project"]
+  pkg_client_ui_embodied["client-ui-embodied"]
+  pkg_robot["robot"]
+  svc_robot["ctx.robot<br/>Robot capability registry"]
+  pkg_robot_simulated["robot-simulated"]
+  pkg_robot_g1d["robot-g1d"]
+  pkg_tool_robot["tool-robot"]
+  svc_robotStudio["ctx.robotStudio<br/>Embodied workbench Remote"]
   pkg_action_cards["action-cards"]
   svc_actionCards["ctx.actionCards<br/>Optional action cards"]
   pkg_creation_recommendations["creation-recommendations"]
@@ -344,6 +355,7 @@ flowchart LR
   pkg_client_file_upload --> svc_fileUploads
   pkg_client_modules --> svc_clientModules
   pkg_client_product_analytics --> svc_productAnalytics
+  pkg_client_ui_embodied --> svc_robotStudio
   pkg_client_ui_plugin_manager --> svc_pluginRegistryProbe
   pkg_command_feedback --> svc_sessionFeedback
   pkg_commands --> svc_commands
@@ -360,6 +372,8 @@ flowchart LR
   pkg_deepseek_account --> svc_deepseekAccount
   pkg_deepseek_account_platform --> svc_deepseekAccount
   pkg_deepseek_llm_api_extensions --> svc_deepseekLlmApiExtensions
+  pkg_embodied_development --> svc_embodiedProjects
+  pkg_embodied_project --> svc_embodiedProjects
   pkg_experimental_api_speech_to_text --> svc_speechController
   pkg_experimental_browser_use_chrome_devtools_mcp --> svc_browserUse
   pkg_experimental_browser_use_playwright_mcp --> svc_browserUse
@@ -416,6 +430,9 @@ flowchart LR
   pkg_ptc_runtime --> svc_ptcRuntime
   pkg_ptc_runtime_node --> svc_ptcRuntime
   pkg_pwsh_local --> svc_shell
+  pkg_robot --> svc_robot
+  pkg_robot_g1d --> svc_robot
+  pkg_robot_simulated --> svc_robot
   pkg_sandbox --> svc_sandbox
   pkg_sandbox_local --> svc_sandbox
   pkg_sandbox_policy --> svc_sandboxPolicy
@@ -520,6 +537,8 @@ flowchart LR
   svc_deepseekLlmApiExtensions --> pkg_llm_deepseek
   svc_directoryPicker --> pkg_api_workspace_controller
   svc_dynamicCordisRunner --> pkg_tool_cordis
+  svc_embodiedProjects --> pkg_client_ui_embodied
+  svc_embodiedProjects --> pkg_tool_embodied_project
   svc_fileReferences --> pkg_api_session_controller
   svc_fileUploads --> pkg_api_session_controller
   svc_forge --> pkg_experimental_client_ui_forge
@@ -552,6 +571,9 @@ flowchart LR
   svc_remoteAccess --> pkg_api_gateway
   svc_remoteAccess --> pkg_api_session_controller
   svc_remoteAccess --> pkg_api_workspace_controller
+  svc_robot --> pkg_client_ui_embodied
+  svc_robot --> pkg_tool_robot
+  svc_robotStudio --> pkg_client_ui_embodied
   svc_sandbox --> pkg_bash_sandbox
   svc_sandbox --> pkg_terminal_bash
   svc_sandboxPolicy --> pkg_bash_sandbox
@@ -649,6 +671,9 @@ flowchart LR
 
 | ctx key | Role | Owner | Implementations | Direct consumers | Companion plugins | Note |
 | --- | --- | --- | --- | --- | --- | --- |
+| `ctx.embodiedProjects` | `seam` | [`embodied-project`](../packages/experimental/embodied-project) | [`embodied-development`](../packages/experimental/embodied-development) | [`tool-embodied-project`](../packages/experimental/tool-embodied-project), [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | Template and target providers contribute sample workflows; consumers share revisioned project storage and evidence. |
+| `ctx.robot` | `seam` | [`robot`](../packages/experimental/robot) | [`robot-simulated`](../packages/experimental/robot-simulated), [`robot-g1d`](../packages/experimental/robot-g1d) | [`tool-robot`](../packages/experimental/tool-robot), [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | Adapters declare current operations; tools discover, observe and request approved physical actions through validated dispatch. |
+| `ctx.robotStudio` | `core` | [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | [`client-ui-embodied`](../packages/experimental/client-ui-embodied) | - | The optional self panel reads the robot registry; sample project dispatch requires separately mounted services. |
 | `ctx.actionCards` | `service` | [`action-cards`](../packages/experimental/action-cards) | - | [`creation-recommendations`](../packages/experimental/creation-recommendations), [`client-ui-action-cards`](../packages/experimental/client-ui-action-cards) | - | Owns the card tool, card state, user actions and status notices; card kinds register their actions and handlers. |
 | `ctx.pluginRecommendations` | `service` | [`plugin-recommendations`](../packages/experimental/plugin-recommendations) | - | [`client-ui-plugin-recommendations`](../packages/experimental/client-ui-plugin-recommendations) | - | Reads the current catalog text of an official plugin card and enables the plugin through the profile plugin manager after a click. |
 | `ctx.headlessStartup` | `core` | [`headless`](../packages/bundle/headless) | - | [`headless`](../packages/bundle/headless) | - | Supplies parsed task and run options to the headless runner and its sandbox-policy configuration. |

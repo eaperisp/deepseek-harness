@@ -1,0 +1,17 @@
+- insert:
+    - id: embodied-projects
+      name: '@deepseek-ai/dsh-embodied-project'
+      config:
+        root: !!js process.env.DSH_EMBODIED_PROJECTS_ROOT
+    - id: embodied-development
+      name: '@deepseek-ai/dsh-embodied-development'
+    - id: embodied-project-tools
+      name: '@deepseek-ai/dsh-tool-embodied-project'
+    - id: embodied-workbench
+      name: '@deepseek-ai/dsh-client-ui-embodied'
+    - id: embodied-robot-runtime
+      name: '@deepseek-ai/dsh-robot'
+    - id: embodied-robot-sample
+      name: '@deepseek-ai/dsh-robot-simulated'
+    - id: embodied-robot-tools
+      name: '@deepseek-ai/dsh-tool-robot'

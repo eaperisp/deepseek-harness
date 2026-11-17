@@ -1,0 +1,67 @@
+{
+  "name": "@deepseek-ai/dsh-embodied-bundle",
+  "description": "Experimental embodied Harness development and sample robot composition",
+  "version": "0.2.2-rc.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/experimental/embodied-bundle"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./sample.patch.yml": "./sample.patch.yml"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts",
+    "cordis.patch.yml",
+    "sample.patch.yml"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-embodied-project": "workspace:*",
+    "@deepseek-ai/dsh-embodied-development": "workspace:*",
+    "@deepseek-ai/dsh-tool-embodied-project": "workspace:*",
+    "@deepseek-ai/dsh-client-ui-embodied": "workspace:*",
+    "@deepseek-ai/dsh-robot": "workspace:*",
+    "@deepseek-ai/dsh-robot-spatial-memory": "workspace:*",
+    "@deepseek-ai/dsh-robot-simulated": "workspace:*",
+    "@deepseek-ai/dsh-tool-robot": "workspace:*",
+    "@deepseek-ai/dsh-robot-g1d": "workspace:*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "workspace:~"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "workspace:~",
+    "@deepseek-ai/cordis-plugin-loader": "workspace:~",
+    "@deepseek-ai/cordis-plugin-include": "workspace:~",
+    "@deepseek-ai/dsh-skill": "workspace:*",
+    "@deepseek-ai/dsh-system-prompt": "workspace:*",
+    "@deepseek-ai/dsh-tools": "workspace:*",
+    "@deepseek-ai/dsh-llm": "workspace:*",
+    "@deepseek-ai/dsh-storage": "workspace:*",
+    "@deepseek-ai/dsh-storage-domain": "workspace:*",
+    "@deepseek-ai/dsh-storage-json": "workspace:*",
+    "js-yaml": "^4.2.0",
+    "vitest": "^4.1.11",
+    "@deepseek-ai/dsh-tool-executor-native": "workspace:*"
+  }
+}

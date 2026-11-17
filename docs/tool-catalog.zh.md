@@ -51,7 +51,9 @@
 | `@deepseek-ai/dsh-tool-todo` | `todo_write` | `ctx.tools`、`owning Agent session` | `tool/call`、`todo/write`、`tool/result` | - | todo_write 是会话所有的状态；UI 将最新的 todo/write 事件渲染为检查清单。`allowParallelInProgress` 是没有默认值的必填项，因此本目录明确选择 `true`，对应描述允许同时存在多个 `in_progress` 项。选择 `false` 的部署会获得同一工具，但描述会要求只能有 1 个活动任务。 |
 | `@deepseek-ai/dsh-tool-working-directory` | `working_directory` | `ctx.tools`, `ctx.workingDirectory` | `tool/call`, `working-directory/change`, `user context for directory changes`, `tool/result` | - | 读取或改变调用方 Session 的目录。已有 shell 和进程保留自己的目录；原始元数据和权限根目录保持不变。 |
 | `@deepseek-ai/dsh-experimental-tool-worktree` | `create_worktree` | `ctx.tools`, `ctx.worktrees`, `a calling Agent` | `tool/call`, `Git branch and checkout`, `working-directory/change`, `tool/result` | - | 在 Web 和 Desktop 上通过变更请求与工作树组合包启用；其他 profile 可以选择独立组合包。在现有写权限下从固定的本地提交创建新分支与检出目录，再改变 Session 工作目录。离开时保留分支与检出目录。 |
+| `@deepseek-ai/dsh-tool-robot` | `robot_act`、`robot_inspect`、`robot_observe`、`robot_workflow` | `ctx.tools`、`ctx.robot`、`robot_act 默认需要用户审批` | `tool/call`、`tool/result`、`审批后由提供者产生的物理效果` | - | robot_workflow 比较实时能力与标准具身工作流，且不会执行操作。robot_inspect 发现当前提供者能力。robot_observe 只接受只读操作；robot_act 只接受物理动作，并且默认请求审批。机器人控制器继续负责防碰撞、限位、联锁、看门狗和急停。 |
 | `@deepseek-ai/dsh-tool-workflow` | `workflow` | `ctx.tools`、`ctx.workflowEngine`、`ctx.systemPrompt`、`a calling Agent (exec.agent parents the script children)` | `tool/call`、`tool/result` | - | - |
+| `@deepseek-ai/dsh-tool-embodied-project` | `embodied_project` | `ctx.tools`、`ctx.embodiedProjects` | `tool/call`、`tool/result`、`revisioned project files` | - | 项目模板和设备在运行时发现。样例运行记录与版本绑定的证据，不宣称完成模型推理或硬件验证。 |
 | `@deepseek-ai/dsh-tool-workspace-dependencies` | `load_workspace_dependencies` | `ctx.tools` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-web` | `web_fetch`、`web_search` | `ctx.tools`、`ctx.web`、`ctx.systemPrompt` | `tool/call`、`tool/result` | - | web_search 和 web_fetch 将提供方选择置于 ctx.web 之后，使模型可见 schema 在更换后端时保持稳定。 |
 
@@ -2540,6 +2542,144 @@ todo_write 是会话所有的状态；UI 将最新的 todo/write 事件渲染为
 来源：[`packages/experimental/tool-worktree/src/index.ts`](../packages/experimental/tool-worktree/src/index.ts)
 
 在 Web 和 Desktop 上通过变更请求与工作树组合包启用；其他 profile 可以选择独立组合包。在现有写权限下从固定的本地提交创建新分支与检出目录，再改变 Session 工作目录。离开时保留分支与检出目录。
+
+<a id="deepseek-aidsh-tool-robot"></a>
+
+## `@deepseek-ai/dsh-tool-robot`
+
+### `robot_act`
+
+执行一项由 robot_inspect 发现、会改变状态的机器人操作。该操作可能移动硬件或改变物理环境，通常需要用户审批。本工具拒绝只读操作。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Exact provider id returned by robot_inspect."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Exact capability id returned by robot_inspect."
+    },
+    "operation_id": {
+      "type": "string",
+      "description": "Exact operation id returned by robot_inspect."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "Named arguments declared by the selected operation.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "provider_id",
+    "capability_id",
+    "operation_id",
+    "arguments"
+  ]
+}
+```
+
+来源：[`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_inspect`
+
+发现当前注册的所有机器人、传感器、感知功能、执行器、移动功能及其就绪状态、操作、参数要求，以及各项操作属于观察还是动作。调用 robot_observe 或 robot_act 前先调用本工具，并且只使用返回的 id。
+
+```json
+{
+  "type": "object",
+  "properties": {}
+}
+```
+
+来源：[`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_observe`
+
+执行一项由 robot_inspect 发现的只读机器人传感器或感知操作。本工具拒绝声明为物理动作的操作。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Exact provider id returned by robot_inspect."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Exact capability id returned by robot_inspect."
+    },
+    "operation_id": {
+      "type": "string",
+      "description": "Exact operation id returned by robot_inspect."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "Named arguments declared by the selected operation.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "provider_id",
+    "capability_id",
+    "operation_id",
+    "arguments"
+  ]
+}
+```
+
+来源：[`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+### `robot_workflow`
+
+把实时机器人目录与标准具身开发工作流进行比较。不传 `workflow_id` 时检查所有工作流，也可以传入之前结果中的准确 id。结果会报告就绪、降级、不可用和缺失的操作，以及有序的实现与验收阶段。本工具不会执行操作，也不能证明物理任务是安全的。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Optional exact workflow id, such as spatial-memory, simulation, hand-eye-calibration, or gravity-compensation."
+    }
+  }
+}
+```
+
+来源：[`packages/experimental/tool-robot/src/tools.ts`](../packages/experimental/tool-robot/src/tools.ts)
+
+robot_workflow 比较实时能力与标准具身工作流，且不会执行操作。robot_inspect 发现当前提供者能力。robot_observe 只接受只读操作；robot_act 只接受物理动作，并且默认请求审批。机器人控制器继续负责防碰撞、限位、联锁、看门狗和急停。
+
+<a id="deepseek-aidsh-tool-embodied-project"></a>
+
+## `@deepseek-ai/dsh-tool-embodied-project`
+
+### `embodied_project`
+
+管理机器人开发项目。先查询 catalog。create 需要 title、goal、template 和 target；read/export 需要 id；revise 需要 id、expectedRevision、title、goal 和 target；run 需要 id、expectedRevision 和 query。list 用于恢复已存项目。模板提供者声明可用能力。样例证据不能证明模型推理或真实机器人行为。使用用户的语言解释结果及下一步。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "command": {
+      "type": "string",
+      "description": "JSON command whose action is catalog, list, create, read, revise, run or export."
+    }
+  },
+  "required": [
+    "command"
+  ]
+}
+```
+
+源码：[`packages/experimental/tool-embodied-project/src/index.ts`](../packages/experimental/tool-embodied-project/src/index.ts)
+
+项目模板和设备在运行时发现。样例运行记录与版本绑定的证据，不宣称完成模型推理或硬件验证。
 
 <a id="deepseek-aidsh-tool-workflow"></a>
 
