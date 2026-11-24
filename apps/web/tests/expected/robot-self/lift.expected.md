@@ -1,0 +1,49 @@
+- region "运控控制":
+  - heading "运控控制" [level=3]
+  - paragraph: 控制器未连接
+  - group "底盘":
+    - text: 底盘 离线
+    - button "前进 10 厘米" [disabled]
+    - button "后退 10 厘米" [disabled]
+    - button "左转 15°" [disabled]
+    - button "右转 15°" [disabled]
+  - group "立柱":
+    - text: 立柱 离线
+    - button "升高 10 厘米" [disabled]
+    - button "降低 10 厘米" [disabled]
+  - group "机械臂任务":
+    - text: 机械臂任务 离线 抓取物名称或 ID
+    - textbox "抓取物名称或 ID"
+    - button "复位" [disabled]
+    - button "抓取目标" [disabled]
+  - group "真空吸盘":
+    - text: 真空吸盘 离线
+    - button "开始吸取" [disabled]
+    - button "释放吸盘" [disabled]
+  - group "停止操作":
+    - text: 停止操作
+    - button "停止底盘和机械臂" [disabled]
+    - button "机械臂急停并释放吸盘" [disabled]
+
+- region "机器人 3D":
+  - heading "机器人 3D" [level=3]
+  - paragraph: 无法显示 G1-D 模型。
+  - button "重新加载模型"
+  - text: 立柱实测高度
+  - strong: 30.0 厘米
+
+- region "机器人 3D":
+  - heading "机器人 3D" [level=3]
+  - paragraph: 无法显示 G1-D 模型。
+  - button "重新加载模型"
+  - text: 立柱实测高度 暂无有效实时反馈
+
+- group "立柱":
+  - text: 立柱 在线
+  - button "升高 10 厘米"
+  - button "降至下限"
+
+- group "立柱":
+  - text: 立柱 在线
+  - button "升高 10 厘米"
+  - button "已到下限" [disabled]

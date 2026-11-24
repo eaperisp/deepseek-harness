@@ -34,10 +34,14 @@
     }
   },
   "files": [
+    "examples/g1d-operator.mjs",
+    "examples/g1d-camera.mjs",
+    "examples/g1d-spatial.mjs",
     "lib/index.js",
     "lib/types/**/*.js",
     "lib/types/**/*.d.ts",
     "lib/client.js",
+    "lib/client.*.js",
     "lib/typert.host.js",
     "lib/typert.host.d.ts",
     "lib/typert.remote-client.js",
@@ -69,7 +73,9 @@
     "vitest": "^4.1.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@testing-library/react": "^16.3.3"
+    "@testing-library/react": "^16.3.3",
+    "three": "0.187.0",
+    "@types/three": "0.187.0"
   },
   "dsh": {
     "client": {

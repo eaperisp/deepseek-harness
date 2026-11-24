@@ -1,0 +1,37 @@
+- main "机器人自身":
+  - heading "机器人自身" [level=1]
+  - text: 最近发现
+  - time: 2026年1月2日 11:04
+  - button "重新发现"
+  - group: 状态说明
+  - region "Simulated mobile manipulator":
+    - heading "Simulated mobile manipulator" [level=2]
+    - paragraph: Deterministic in-process mobile manipulator used to verify discovery, observation, approval, and action flows.
+    - group "按能力状态筛选":
+      - button "全部 6" [pressed]
+      - button "就绪 6"
+      - button "受限 0"
+      - button "不可用 0"
+    - region "能力清单":
+      - heading "能力清单" [level=3]
+      - text: 6 项
+      - searchbox "搜索能力或操作"
+      - heading "执行器 1" [level=4]
+      - group: Parallel gripper 就绪
+      - heading "移动 1" [level=4]
+      - group: Mobile base 就绪
+      - heading "传感器 2" [level=4]
+      - group:
+        - text: Range radar 就绪
+        - paragraph: Measures nearby obstacle distance.
+        - heading "已注册操作" [level=5]
+        - list:
+          - listitem:
+            - text: Scan surroundings
+            - code: scan
+            - text: 只读
+      - group: RGB camera 就绪
+      - heading "感知 2" [level=4]
+      - group: Object recognition 就绪
+      - group: Spatial perception 就绪
+  - group: 在 Harness 对话中使用机器人

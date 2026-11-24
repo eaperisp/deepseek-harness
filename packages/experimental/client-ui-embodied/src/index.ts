@@ -5,7 +5,12 @@ import type {} from '@deepseek-ai/dsh-robot'
 import z from '@deepseek-ai/schemastery'
 import { Remote, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
 
-declare module '@deepseek-ai/cordis' { interface Context { robotStudio: EmbodiedWorkbench } }
+/** Installed operator controller for a G1-D deployment. */
+export interface G1dOperator {
+  state(signal: AbortSignal): Promise<string>
+  submit(action: string, target: string, ticket: string): string
+}
+declare module '@deepseek-ai/cordis' { interface Context { robotStudio: EmbodiedWorkbench; g1dOperator: G1dOperator } }
 
 /** Timeout for an explicit inventory refresh. */
 export interface Config {
@@ -37,6 +42,29 @@ export default class EmbodiedWorkbench extends TypertRemoteService {
     const pending = this.ctx.robot.inspect(signal).then(value => JSON.stringify(value))
     this.pending.add(pending)
     try { return await pending } finally { this.pending.delete(pending) }
+  }
+  /**
+   * Read the operator's measured pose and last command receipt.
+   * @returns A JSON snapshot, or JSON null when no operator adapter is installed.
+   */
+  @Remote
+  async motionState(): Promise<string> {
+    this.lifetime.signal.throwIfAborted()
+    return this.ctx.get('g1dOperator')?.state(this.lifetime.signal) ?? 'null'
+  }
+  /**
+   * Submit one manual command against the operator's current admission ticket.
+   * @param action - Fixed operator action.
+   * @param target - Object identifier for a grasp.
+   * @param ticket - Single-use admission ticket from the current controller.
+   * @returns Receipt identifier. Subsequent measurements report the outcome.
+   */
+  @Remote
+  async motion(action: string, target: string, ticket: string): Promise<string> {
+    this.lifetime.signal.throwIfAborted()
+    const operator = this.ctx.get('g1dOperator')
+    if (!operator) throw new Error('G1-D operator unavailable')
+    return operator.submit(action, target, ticket)
   }
   /**
    * Forward a project command without a second data store.

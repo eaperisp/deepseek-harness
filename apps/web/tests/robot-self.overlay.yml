@@ -1,0 +1,7 @@
+- insert:
+    - id: robot-runtime
+      name: '@deepseek-ai/dsh-robot'
+    - id: robot-simulated
+      name: '@deepseek-ai/dsh-robot-simulated'
+    - id: robot-workbench
+      name: '@deepseek-ai/dsh-client-ui-embodied'
